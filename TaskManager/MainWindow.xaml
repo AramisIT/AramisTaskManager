@@ -1,0 +1,257 @@
+﻿<Window:HideWin
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:tb="clr-namespace:Hardcodet.Wpf.TaskbarNotification;assembly=Hardcodet.Wpf.TaskbarNotification" 
+    xmlns:Window="clr-namespace:TaskManager.Window" 
+    xmlns:Converter="clr-namespace:TaskManager.Converter" 
+    xmlns:UsersControls="clr-namespace:TaskManager.UsersControls" 
+    xmlns:TaskManager="clr-namespace:TaskManager" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
+    x:Class="TaskManager.MainWindow" 
+    Title="{Binding Content, ElementName=Topic}" 
+    Height="500" Width="900" MinHeight="400"
+    WindowStartupLocation="CenterScreen" 
+    Closed="HideWin_Closed" 
+    x:Name="MainWin" 
+    Icon="/TaskManager;component/Document.ico">
+
+    <Window:HideWin.Resources>
+        <Converter:DateConverter x:Key="dateConverter"/>
+        <Converter:TaskToRowColor x:Key="taskToRowColor"/>
+        <Converter:ChoosedUserToEnableConverter x:Key="choosedUserToEnableConverter" />
+    </Window:HideWin.Resources>
+
+    <Window:HideWin.CommandBindings>
+        <CommandBinding Command="{x:Static TaskManager:MainWindow.MyCommand}" Executed="CommandBinding_Executed"/>
+    </Window:HideWin.CommandBindings>
+    
+    <Grid Background="{StaticResource GrayMainGridBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="620*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="411*" />
+        </Grid.RowDefinitions>
+        <tb:TaskbarIcon IconSource="/TaskManager;component/Document.ico" x:Name="notify" Grid.RowSpan="3" Grid.ColumnSpan="2">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Новое задание " x:Name="NewTask" Height="30" FontSize="13" FontWeight="Bold" Click="NewTask_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/plus.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Мои" x:Name="My" Height="30" FontSize="13" FontWeight="Bold" IsEnabled="False">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/man.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header=" -важные" x:Name="MyImportant" Height="22" Click="MyImportant_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/Fav-2.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header=" -к выполнению" x:Name="MyToPerform" Height="22" Click="MyToPerform_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/Clock.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header=" -не выполненные" x:Name="MyPutNotCompled" Height="22" Click="MyPutNotCompled_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/Actions-process-stop.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header=" -все" x:Name="MyAll" Height="22" Click="MyAll_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/Actions-view-list-tree.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Все" x:Name="All" FontWeight="Bold" Height="22" FontSize="12" Click="All_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/scheduled-tasks.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Выход" x:Name="Exit" FontWeight="Bold" Height="22" FontSize="12" Click="Exit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/TaskManager;component/Images/close.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <Rectangle Grid.Row="2" Stroke="{StaticResource BlackStrokeForMainGridBorder}" Margin="2,0,2,2" Fill="#FFF0F0F0" Grid.Column="1" />
+        <Rectangle Grid.Column="1" HorizontalAlignment="Right" Margin="0,-2,0,0" x:Name="rectangle1" Width="185.661" StrokeThickness="2" Grid.RowSpan="3" Height="60" VerticalAlignment="Top">
+            <Rectangle.Fill>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<LinearGradientBrush.RelativeTransform>
+        				<TransformGroup>
+        					<ScaleTransform CenterY="0.5" CenterX="0.5"/>
+        					<SkewTransform CenterY="0.5" CenterX="0.5"/>
+        					<RotateTransform Angle="-90" CenterY="0.5" CenterX="0.5"/>
+        					<TranslateTransform/>
+        				</TransformGroup>
+        			</LinearGradientBrush.RelativeTransform>
+        			<GradientStop Color="#FF5E5E5E" Offset="0.499"/>
+        			<GradientStop Offset="1" Color="#00787878"/>
+        			<GradientStop Color="#008F8F8F"/>
+        			<GradientStop Color="#E0C6C6C6" Offset="0.5"/>
+        		</LinearGradientBrush>
+        	</Rectangle.Fill>
+        </Rectangle>
+        <DataGrid AutoGenerateColumns="False" x:Name="tasksGrid" Margin="3,1,3,3" Grid.Row="2" Grid.Column="1" IsReadOnly="True" MouseDoubleClick="tasksGrid_MouseDoubleClick" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="TopicHeader" Binding="{Binding Topic}" Header="Тема" Width="1*"/>
+                <DataGridTextColumn x:Name="DateEndHeader" Binding="{Binding EndDate, Converter={StaticResource dateConverter}}" Header="Срок готовности" />
+                <DataGridTextColumn x:Name="PerformerHeader" Binding="{Binding Performer.Name}" Header="Исполнитель" />
+                <DataGridTextColumn x:Name="CustomerHeader" Binding="{Binding Customer.Name}" Header="Заказчик" />
+                <DataGridTextColumn x:Name="PercentsHeader" Binding="{Binding Percents}" Header="%" Width="40" CanUserResize="False"/>
+                <DataGridTextColumn x:Name="StartHeader" Binding="{Binding Percents}" Header="Начать/Закончить" CanUserResize="False"/>
+                <DataGridTemplateColumn Width="30" x:Name="ImportantHeader" CanUserResize="False">
+                    <DataGridTemplateColumn.Header>
+                        <Image Source="/TaskManager;component/Images/Fav-2.ico" Height="18"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UsersControls:ImportantButton 
+                                IsChecked="{Binding IsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TaskGUID="{Binding GUID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                UpdateFlagOfImportant="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn CanUserResize="False" Width="20"/>
+            </DataGrid.Columns>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="{Binding Converter={StaticResource taskToRowColor}}" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <Button HorizontalAlignment="Left" Margin="30.996,0.999,0,0" x:Name="addNewTask" VerticalAlignment="Top" Grid.Column="1" Click="addNewTask_Click_1" Style="{DynamicResource NavButtons}" Width="23" ToolTip="Добавить строку" Height="23" Grid.Row="1" >
+            <Image Source="/TaskManager;component/Images/plus.ico" />
+        </Button>
+        <Button Content="settings" HorizontalAlignment="Left" Margin="10,4,0,3" x:Name="SetSettings" VerticalAlignment="Center" Click="SetSettings_Click" Style="{DynamicResource SettingButton}" ToolTip="Настройки" Grid.Row="1" />
+        <Rectangle Grid.Row="2" x:Name="rectangle2" Stroke="Black" Margin="2,0,2,2" Fill="#FFF0F0F0" />
+        <MenuItem Header="Мои" x:Name="MenuMy" Height="30" FontSize="13" FontWeight="Bold" IsEnabled="False" Margin="7,0,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/man.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Header=" -важные" x:Name="MenuMyImportant" Height="22" Click="MyImportant_Click" Margin="7,36,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Fav-2.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Label IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Content=" -к выполнению" Margin="32,62,2,0" Grid.Row="2" Height="25" VerticalAlignment="Top" />
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  x:Name="MenuMyToPerform" Height="22" Click="MyToPerform_Click" Margin="7,64,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Clock.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Label IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Content=" -не выполненные" Margin="32,90,2,0" Grid.Row="2" Height="25" VerticalAlignment="Top" />
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  x:Name="MenuMyPutNotCompled" Height="22" Click="MyPutNotCompled_Click" Margin="7,92,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Actions-process-stop.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Header=" -все" x:Name="MenuMyAll" Height="22" Click="MyAll_Click" Margin="7,120,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Actions-view-list-tree.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Label Content="Поставленны мной" IsEnabled="False" Margin="38,153,0,0" FontSize="13" FontWeight="Bold" Grid.Row="2" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" />
+        <MenuItem x:Name="MenuPut" Height="30" FontSize="13" FontWeight="Bold" IsEnabled="False" Margin="7,155,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Status-mail-task.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Header=" -важные" x:Name="MenuPutImportant" Height="22" Click="PutImportant_Click" Margin="7,191,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Fav-2.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Label IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Content="-не выполненные" Margin="35,217,3,0" Grid.Row="2" Height="25" VerticalAlignment="Top" />
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  x:Name="MenuPutNotCompleted" Height="22" Click="PutNotCompleted_Click" Margin="7,219,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Actions-process-stop.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Header=" -все" x:Name="MenuPutAll" Height="22" Click="PutAll_Click" Margin="7,247,3,0" Grid.Row="2" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/Actions-view-list-tree.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem IsEnabled="{Binding Converter={StaticResource choosedUserToEnableConverter}}"
+                  Header="Все" x:Name="MenuAll" FontWeight="Bold" Height="30" FontSize="13" Click="All_Click" Margin="7,282,0,0" Grid.Row="2" HorizontalAlignment="Left" Width="170" VerticalAlignment="Top">
+            <MenuItem.Icon>
+                <Image Source="/TaskManager;component/Images/scheduled-tasks.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Rectangle Margin="0,148,0,0" Grid.Row="2" Height="1" VerticalAlignment="Top">
+            <Rectangle.Stroke>
+                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                    <GradientStop Color="Black" Offset="0.5" />
+                    <GradientStop Color="#00000000" Offset="1" />
+                    <GradientStop Color="#00000000" Offset="0" />
+                </LinearGradientBrush>
+            </Rectangle.Stroke>
+        </Rectangle>
+        <Label Content="..." HorizontalAlignment="Left" x:Name="Topic" FontWeight="Bold" FontSize="17.333" Grid.Column="1" Margin="0,0,0,23" Grid.RowSpan="2" />
+        <Label Content="{Binding Name}" FontSize="13" FontWeight="Bold" Margin="32,0,0,0" x:Name="UserName" Grid.RowSpan="2" Grid.Row="1" Height="32" VerticalAlignment="Top" />
+        <Button HorizontalAlignment="Left" Margin="57.996,0.999,0,0" x:Name="deleteTask" VerticalAlignment="Top" Grid.Column="1" Click="deleteTask_Click" Style="{DynamicResource NavButtons}" Width="23" ToolTip="Удалить строку" Height="23" Grid.Row="1" >
+            <Image Source="/TaskManager;component/Images/minus.ico" />
+        </Button>
+        <Rectangle Margin="0,275,0,0" Grid.Row="2" Height="1" VerticalAlignment="Top">
+            <Rectangle.Stroke>
+                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                    <GradientStop Color="Black" Offset="0.5" />
+                    <GradientStop Color="#00000000" Offset="1" />
+                    <GradientStop Color="#00000000" Offset="0" />
+                </LinearGradientBrush>
+            </Rectangle.Stroke>
+        </Rectangle>
+        <Button HorizontalAlignment="Right" Margin="0,8,48,-20" x:Name="button1" Grid.Column="1" Click="OpenUserCatalog_Click" Style="{DynamicResource MailButton}" ToolTip="Справочник пользователей" Width="38" Height="38" VerticalAlignment="Top">
+            <Image Source="/TaskManager;component/Images/man.ico" Width="35" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Button>
+        <Button HorizontalAlignment="Right" Margin="0,8,3,-20" x:Name="openProjectCatalog" Grid.Column="1" Click="openProjectCatalog_Click" Style="{DynamicResource MailButton}" ToolTip="Справочник проектов" Width="38" Height="38" VerticalAlignment="Top">
+            <Image Source="/TaskManager;component/Images/Project.ico" Width="35" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Button>
+        <StackPanel Grid.Column="1" Grid.Row="2" Margin="3,0,3,3" x:Name="filterPanel" Height="25" VerticalAlignment="Bottom" Orientation="Horizontal" Visibility="Collapsed" KeyDown="filterPanel_KeyDown_2">
+            <Rectangle Height="18"  Width="6"/>
+            <TextBox x:Name="TopicFilter" Width="{Binding ActualWidth, ElementName=TopicHeader}" Margin="0" Style="{DynamicResource FilterTextBox}" />
+            <DatePicker x:Name="DateEndFilter" Width="{Binding ActualWidth, ElementName=DateEndHeader}" Margin="0" SelectedDateChanged="DateEndFilter_SelectedDateChanged" MouseDoubleClick="DateEndFilter_MouseDoubleClick" />
+            <TextBox x:Name="PerformerFilter" Width="{Binding ActualWidth, ElementName=PerformerHeader}" Margin="0" Style="{DynamicResource FilterTextBox}"/>
+            <TextBox x:Name="CustomerFilter" Width="{Binding ActualWidth, ElementName=CustomerHeader}" Margin="0" Style="{DynamicResource FilterTextBox}"/>
+            <TextBox x:Name="PercentsFilter" Width="{Binding ActualWidth, ElementName=PercentsHeader}" Margin="0" Style="{DynamicResource FilterTextBox}"/>
+            <Rectangle Height="18" x:Name="StartFilter" Stroke="{x:Null}" Width="{Binding ActualWidth, ElementName=StartHeader}"/>
+            <UsersControls:ImportantButton Height="22" x:Name="ImportantFilter" Width="{Binding ActualWidth, ElementName=ImportantHeader}" MouseUp="ImportantFilter_MouseUp" />
+        </StackPanel>
+        <Button HorizontalAlignment="Right" Margin="0,8,101.005,-20" x:Name="OpenBeginedWorks" Click="OpenBeginedWorks_Click" Style="{DynamicResource MailButton}" Width="38" Height="38" Grid.Column="1" ToolTip="Управление заданиями &quot;На выполнение&quot;" VerticalAlignment="Top">
+            <Image Source="/TaskManager;component/Images/Actions-media-seek-forward.ico" Width="35" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Button>
+        <CheckBox Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="2,0,0,0" Grid.Row="1" Width="25" Height="25" Style="{DynamicResource SearchCheckBox}" Checked="CheckBox_Checked" Name="ShowSearchPanel" Unchecked="ShowSearchPanel_Unchecked" ToolTip="Показать(скрыть) панель поиска" VerticalAlignment="Top" />
+        <Button HorizontalAlignment="Right" Margin="0,8,191.505,-20" Name="CheckEmail" VerticalAlignment="Top" Click="CheckEmail_Click" Style="{DynamicResource MailButton}" Width="38" Height="38" Grid.Column="1" ToolTip="Проверить почту">
+            <Image Source="/TaskManager;component/Images/Mail-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="35" />
+        </Button>
+        <Button HorizontalAlignment="Right" Margin="0,8,146.005,-20" Name="openLogWin" Click="openLogWin_Click" Style="{DynamicResource MailButton}" Width="38" Height="38" Grid.Column="1" ToolTip="Просмотреть лог обновлений" VerticalAlignment="Top">
+            <Image Source="/TaskManager;component/Images/log.ico" Width="35" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Button>
+        <Image HorizontalAlignment="Left" Name="image1" Stretch="Uniform" VerticalAlignment="Stretch" Margin="10,2,0,-10" Source="/TaskManager;component/Images/TaskManager.png" />
+    </Grid>
+</Window:HideWin>

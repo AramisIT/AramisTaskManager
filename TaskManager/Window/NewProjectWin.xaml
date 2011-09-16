@@ -1,0 +1,32 @@
+﻿<Window:HideWin x:Class="TaskManager.Window.NewProjectWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:Window="clr-namespace:TaskManager.Window" 
+        Title="Новый проект" Height="221" Width="421" 
+        WindowStartupLocation="CenterScreen" Icon="/TaskManager;component/Images/Project.ico" xmlns:my="clr-namespace:TaskManager.Converter">
+    
+    <Window:HideWin.Resources>
+        <my:InvertBoolConverter x:Key="invertBoolConverter" />
+    </Window:HideWin.Resources>
+    
+    <Grid Background="{StaticResource NewFieldGridBackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="230*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Rectangle Fill="LightGray" Margin="10,10,10,5" Name="rectangle0" RadiusX="5" RadiusY="5" Stroke="DimGray" StrokeThickness="2" />
+        <Button Content="Oк" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,91,0" Name="Ok" VerticalAlignment="Center" Width="75" Click="Ok_Click" TabIndex="20" />
+        <Button Content="Отмена" Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" Name="Cancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="Cancel_Click" TabIndex="30" />
+        <TextBox Height="23" Margin="144,24,20,0" Name="Email" Style="{StaticResource textBoxInError}" Text="{Binding Description, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" TabIndex="10" 
+                 IsEnabled="{Binding Path=IsDelete, Converter={StaticResource invertBoolConverter}}" />
+        <Label Content="Проект:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="18,22,0,0" Name="label2" VerticalAlignment="Top" />
+        <Label Content="Ответственный:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="18,53,0,0" Name="label6" VerticalAlignment="Top" />
+        <ComboBox SelectedItem="{Binding Leader, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  Style="{StaticResource comboBoxInError}" Height="23" Margin="144,53,20,0" Name="Leader" VerticalAlignment="Top" DisplayMemberPath="Name" 
+                  IsEnabled="{Binding Path=IsDelete, Converter={StaticResource invertBoolConverter}}" />
+        <Label Content="Родитель:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="18,82,0,0" Name="label7" VerticalAlignment="Top" IsEnabled="False" />
+        <ComboBox Height="23" Margin="144,82,20,0" Name="comboBox2" VerticalAlignment="Top" IsEnabled="False" />
+        <Label Content="Тип:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="18,111,0,0" Name="label9" VerticalAlignment="Top" IsEnabled="False" />
+        <ComboBox Height="23" Margin="144,111,20,0" Name="comboBox3" VerticalAlignment="Top" IsEnabled="False" />
+    </Grid>
+</Window:HideWin>

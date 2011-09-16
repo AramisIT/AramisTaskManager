@@ -1,0 +1,94 @@
+﻿<Window:HideWin 
+    x:Class="TaskManager.Window.NewTaskWin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Window="clr-namespace:TaskManager.Window" xmlns:UsersControls="clr-namespace:TaskManager.UsersControls" 
+    Title="Новое задание" Height="376" Width="500" 
+    Icon="/TaskManager;component/Images/Actions-document-edit1.ico" 
+    MinHeight="400" MinWidth="450" 
+    WindowStartupLocation="CenterScreen" xmlns:my="clr-namespace:TaskManager.Converter">
+    <Window:HideWin.Resources>
+        <my:CurrUserToEnabledConverter x:Key="currUserToEnabledConverter" />
+    </Window:HideWin.Resources>
+    <Grid Background="{StaticResource NewFieldGridBackgroundColor}" Name="mainArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="176*" />
+            <RowDefinition Height="90" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Rectangle Name="rectangle0" Stroke="DimGray" Margin="5,3,5,3" RadiusX="5" RadiusY="5" Fill="LightGray" StrokeThickness="2" />
+        <TextBox Name="Topic" Text="{Binding ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=Topic}" 
+                 IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                 Style="{StaticResource textBoxInError}"
+                 Margin="57,9,31,0" VerticalAlignment="Top" Height="23" TabIndex="10" />
+        <Label Content="Тема" Height="28" HorizontalAlignment="Left" Margin="12,7,0,0" Name="label1" VerticalAlignment="Top" FontWeight="Bold" />
+        <Rectangle Grid.Row="1" Name="rectangle1" Stroke="DimGray" Margin="5,0" RadiusX="5" RadiusY="5" Fill="LightGray" Grid.RowSpan="2" StrokeThickness="2" />
+        <Button Content="Отмена" Grid.Row="3" Height="23" HorizontalAlignment="Right" Name="Close" VerticalAlignment="Center" Width="75" Margin="0,0,5,0" Click="Close_Click" TabIndex="80" />
+        <Button Content="Ок" Height="23" HorizontalAlignment="Right" Name="Ok" VerticalAlignment="Center" Width="75" Grid.Row="3" Margin="0,0,85,0" Click="Ok_Click" TabIndex="70" />
+        <Label Content="Описание" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="label2" VerticalAlignment="Top" Grid.Row="1" FontWeight="Bold" />
+        <TextBox Text="{Binding Description, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 Style="{StaticResource textBoxInError}"
+                 IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                 Grid.Row="1" Margin="12,23,12,0" Name="textBox1" AcceptsTab="True" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TabIndex="20" />
+        <Expander Grid.Row="2" Header="Выполнение" HorizontalAlignment="Stretch" Margin="10,65,10,0" Name="Expander" VerticalAlignment="Stretch" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
+            <Grid>
+                <Rectangle Name="rectangle001" Stroke="DimGray" Margin="5,3,5,5" RadiusX="5" RadiusY="5" Fill="#FFEBEBEB" StrokeThickness="2" />
+                <Label Content="Выполнение       %" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label71" VerticalAlignment="Top" />
+                <Label Content="Комментарии" Height="28" HorizontalAlignment="Left" Margin="6,61,0,0" Name="label81" VerticalAlignment="Top" FontWeight="Bold" />
+                <Button Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="23" Content="+" Margin="100,61,0,0" Name="addNewComment" Click="addNewComment_Click" />
+                <DataGrid Margin="10,85,10,10" Name="comments" AreRowDetailsFrozen="True" RowHeight="20" AutoGenerateColumns="False" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=User.Name}" IsReadOnly="True" Header="Пользователь" Width="90" />
+                        <DataGridTextColumn Binding="{Binding Path=Date, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" IsReadOnly="True" Header="Дата комментария" Width="115" />
+                        <DataGridTextColumn Binding="{Binding Path=Data}" Header="Комментарий" Width="270" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Slider Value="{Binding Percents}" 
+                        IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                        Height="23" HorizontalAlignment="Stretch" Margin="125,9,10,0" Name="Percents" VerticalAlignment="Top" Delay="10" SmallChange="10" TickFrequency="10" Maximum="100" Minimum="0" TickPlacement="BottomRight" LargeChange="10" IsSnapToTickEnabled="True" IsMoveToPointEnabled="True" TabIndex="100" />
+                <TextBlock Text="{Binding Path=Value, ElementName=Percents}" 
+                           IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                           HorizontalAlignment="Left" Margin="79,11,0,0" Name="label9" VerticalAlignment="Top" FontWeight="Bold" TextAlignment="Center" Width="27" />
+                <TextBlock Text="{Binding TimeFact}" HorizontalAlignment="Left" Margin="400,41,0,0" Name="TimeFact" VerticalAlignment="Top" TextAlignment="Left" Width="35" FontWeight="Bold" />
+                <Label Content="Плановое время: " Height="28" HorizontalAlignment="Left" Margin="6,36,0,0" Name="label10" VerticalAlignment="Top" />
+                <TextBox Text="{Binding TimePlan}" 
+                         IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                         Height="23" HorizontalAlignment="Left" Margin="125,38,0,0" Name="TimePlan" VerticalAlignment="Top" Width="45" TextAlignment="Center" TabIndex="110" />
+                <Label Content="Коректировка:" Height="28" HorizontalAlignment="Left" Margin="171,36,0,0" Name="label11" VerticalAlignment="Top" />
+                <TextBox Text="{Binding TimeAdjustment}" 
+                         IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                         Height="23" HorizontalAlignment="Left" Margin="262,38,0,0" Name="TimeAdjustment" VerticalAlignment="Top" Width="45" TextChanged="TimeAdjustment_TextChanged" TextAlignment="Center" TabIndex="120" />
+                <Label Content="Факт. время:" Height="28" HorizontalAlignment="Left" Margin="318,36,0,0" Name="label12" VerticalAlignment="Top" />
+            </Grid>
+        </Expander>
+        <Label Content="Срок готовности" Grid.Row="2" Height="28" HorizontalAlignment="Left" Margin="12,6,0,0" Name="label3" VerticalAlignment="Top" />
+        <Label Content="Приоритет" Height="28" HorizontalAlignment="Right" Margin="0,6,126,0" Name="label5" VerticalAlignment="Top" Grid.Row="2" />
+        <DatePicker 
+            SelectedDate="{Binding EndDate}" 
+            IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+            Grid.Row="2" Height="25" HorizontalAlignment="Left" Margin="113,7,0,0" Name="Date" VerticalAlignment="Top" Width="115" TabIndex="30" />
+        <Label Content="Проект" Height="28" HorizontalAlignment="Right" Margin="0,32,146,0" Name="label6" VerticalAlignment="Top" Grid.Row="2" />
+        <Label Content="Ответственный" Height="28" HorizontalAlignment="Left" Margin="12,36,0,0" Name="label4" VerticalAlignment="Top" Grid.Row="2" />
+        <ComboBox SelectedItem="{Binding Performer, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  Style="{StaticResource comboBoxInError}"
+                  IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                  DisplayMemberPath="Name"  Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="113,36,0,0" Name="Performer" VerticalAlignment="Top" Width="115" TabIndex="40" />
+        <ComboBox SelectedIndex="{Binding Priority}" 
+            IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+            Height="23" HorizontalAlignment="Right" Margin="0,8,12,0" Name="Priority" VerticalAlignment="Top" Width="112" Grid.Row="2" TabIndex="50">
+            <ComboBoxItem Content="Высокий" />
+            <ComboBoxItem Content="Средний" />
+            <ComboBoxItem Content="Низкий" />
+        </ComboBox>
+        <ComboBox SelectedValue="{Binding Project, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  Text="{Binding Path=Project.Description}"
+                 Style="{StaticResource comboBoxInError}"
+                  IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+                 Height="23" HorizontalAlignment="Right" Margin="0,37,12,0" Name="taskProject" VerticalAlignment="Top" Width="112" Grid.Row="2" TabIndex="60" DisplayMemberPath="Description" />
+        <UsersControls:ImportantButton 
+            IsChecked="{Binding IsImportant, Path=IsImportant, Mode=TwoWay}"  
+            IsEnabled="{Binding Performer, Converter={StaticResource currUserToEnabledConverter}}"
+            Height="23" HorizontalAlignment="Right" Margin="0,9,8,0" x:Name="importantButton1" VerticalAlignment="Top" Width="23" />
+    </Grid>
+</Window:HideWin>

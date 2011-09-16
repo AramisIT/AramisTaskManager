@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75BC087F-6FD0-4CCF-8C4B-32CCF19D856B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TaskManager</RootNamespace>
+    <AssemblyName>TaskManager</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Document.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v10.2, Version=10.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Core.v10.2, Version=10.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Scheduler.v10.2, Version=10.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v10.2.Core, Version=10.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Microsoft.Expression.Interactions" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converter\ChoosedUserToEnableConverter.cs" />
+    <Compile Include="Converter\InvertBoolConverter.cs" />
+    <Compile Include="Converter\ProjectToColorConverter.cs" />
+    <Compile Include="Converter\TaskToRowColor.cs" />
+    <Compile Include="Converter\CurrUserToEnabledConverter.cs" />
+    <Compile Include="Converter\LogRecordTypeToColor.cs" />
+    <Compile Include="Converter\NotNullObjectToOpacityConverter.cs" />
+    <Compile Include="Converter\ExistSelElementConverter.cs" />
+    <Compile Include="Converter\DateConverter.cs" />
+    <Compile Include="Converter\PercentConverter.cs" />
+    <Compile Include="Converter\UserToColorConverter.cs" />
+    <Compile Include="DB-classes\Comment.cs" />
+    <Compile Include="DB-classes\Log.cs" />
+    <Compile Include="DB-classes\Project.cs" />
+    <Compile Include="DB-classes\Task.cs" />
+    <Compile Include="DB-classes\User.cs" />
+    <Compile Include="e-mail\EmailChecker.cs" />
+    <Compile Include="e-mail\Messanger.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SQLite\SQLiteWorker.cs" />
+    <Compile Include="UsersControls\ImportantButton.xaml.cs">
+      <DependentUpon>ImportantButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UsersControls\Percent.xaml.cs">
+      <DependentUpon>Percent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\BeginTasksWin.xaml.cs">
+      <DependentUpon>BeginTasksWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\LogWin.xaml.cs">
+      <DependentUpon>LogWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\MessageWin.xaml.cs">
+      <DependentUpon>MessageWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\NewProjectWin.xaml.cs">
+      <DependentUpon>NewProjectWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\ProjectCatalogWin.xaml.cs">
+      <DependentUpon>ProjectCatalogWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\HideWin.cs" />
+    <Compile Include="Window\NewTaskWin.xaml.cs">
+      <DependentUpon>NewTaskWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\NewUserWin.xaml.cs">
+      <DependentUpon>NewUserWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\SettingWin.xaml.cs">
+      <DependentUpon>SettingWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\UserCatalogWin.xaml.cs">
+      <DependentUpon>UserCatalogWin.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UsersControls\ImportantButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UsersControls\Percent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\BeginTasksWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\LogWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\MessageWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\NewProjectWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Window\ProjectCatalogWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Window\NewTaskWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\NewUserWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\SettingWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\UserCatalogWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\wpf-notifyicon\NotifyIconWpf\NotifyIconWpf.csproj">
+      <Project>{7AC63864-7638-41C4-969C-D3197EF2BED9}</Project>
+      <Name>NotifyIconWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmailMessanger\EmailMessanger.csproj">
+      <Project>{2D863AF9-8D6F-4A56-A453-083810DBC945}</Project>
+      <Name>EmailMessanger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions-document-edit1.ico" />
+    <Resource Include="settings_act_enter.png" />
+    <Resource Include="settings_act_leave.png" />
+    <Resource Include="settings_dact_enter.png" />
+    <Resource Include="settings_dact_leave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Status-mail-task.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Document.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\man.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Fav-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Clock.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions-process-stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions-view-list-tree.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\scheduled-tasks.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon_error.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Star-full.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\draw-star.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Star-empty.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\catalog.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Project.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions-media-seek-forward.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow-right.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\next.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow-left.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cross.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ok.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Close1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Zoom.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions-edit-copy.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Mail-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\log.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\plus.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\minus.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TaskManager.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

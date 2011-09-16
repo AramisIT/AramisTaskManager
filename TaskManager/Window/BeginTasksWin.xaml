@@ -1,0 +1,79 @@
+﻿<Window:HideWin 
+        x:Class="TaskManager.Window.BeginTasksWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:Window="clr-namespace:TaskManager.Window" 
+        xmlns:UsersControls="clr-namespace:TaskManager.UsersControls" 
+        Title="Задачи назначенные к выполнению" Height="450" Width="900" 
+    Icon="/TaskManager;component/Images/Clock.ico" WindowStartupLocation="CenterScreen" xmlns:my="clr-namespace:TaskManager.Converter">
+    <Window:HideWin.Resources>
+        <my:ExistSelElementConverter x:Key="existSelElementConverter" />
+        <my:NotNullObjectToOpacityConverter x:Key="notNullObjectToOpacityConverter" />
+    </Window:HideWin.Resources>
+    <Grid Background="{StaticResource GrayMainGridBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Stroke="{StaticResource BlackStrokeForMainGridBorder}" Margin="2,25,2,2" />
+        <Rectangle Stroke="{StaticResource BlackStrokeForMainGridBorder}" Margin="2,25,2,2" Grid.Column="2" />
+        <DataGrid AutoGenerateColumns="False" Name="allMyTasksGrid" IsReadOnly="True" Margin="3,26,3,3">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="TopicHeader" Binding="{Binding Path=Topic}" Header="Тема" Width="205"/>
+                <DataGridTextColumn x:Name="PercentsHeader" Binding="{Binding Path=Percents}" Header="%" Width="40" CanUserResize="False"/>
+                <DataGridTextColumn x:Name="StartHeader" Binding="{Binding Path=Percents}" Header="Начать/Закончить" CanUserResize="False"/>
+                <DataGridTemplateColumn Width="30" x:Name="ImportantHeader" CanUserResize="False">
+                    <DataGridTemplateColumn.Header>
+                        <Image Source="/TaskManager;component/Images/Fav-2.ico" Height="18"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UsersControls:ImportantButton 
+                                IsChecked="{Binding Path=IsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TaskGUID="{Binding Path=GUID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" 
+                                UpdateFlagOfImportant="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid AutoGenerateColumns="False" Name="beginedTastsGrid" Grid.Column="2" IsReadOnly="True" Margin="3,26,3,3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Topic}" Header="Тема" Width="205"/>
+                <DataGridTextColumn Binding="{Binding Path=Percents}" Header="%" Width="40" CanUserResize="False"/>
+                <DataGridTextColumn Binding="{Binding Path=Percents}" Header="Начать/Закончить" CanUserResize="False"/>
+                <DataGridTemplateColumn Width="30" CanUserResize="False">
+                    <DataGridTemplateColumn.Header>
+                        <Image Source="/TaskManager;component/Images/Fav-2.ico" Height="18"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UsersControls:ImportantButton 
+                                IsChecked="{Binding Path=IsImportant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TaskGUID="{Binding Path=GUID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" 
+                                UpdateFlagOfImportant="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel HorizontalAlignment="Center" Name="stackPanel1" VerticalAlignment="Center" Grid.Column="1">
+            <Button IsEnabled="{Binding ElementName=allMyTasksGrid, Path=SelectedItems.Count, Converter={StaticResource existSelElementConverter}}" 
+                    Opacity="{Binding ElementName=allMyTasksGrid, Path=SelectedItem, Converter={StaticResource notNullObjectToOpacityConverter}}"
+                    Grid.Column="1" Height="30" Name="Add" VerticalAlignment="Top" Width="30" HorizontalAlignment="Center" Click="Add_Click" ToolTip="Добавить выбранные задачи" Style="{DynamicResource NavButtons}" >
+                <Image Source="/TaskManager;component/Images/next.ico" />
+            </Button>
+            <Button IsEnabled="{Binding ElementName=beginedTastsGrid, Path=SelectedItems.Count, Converter={StaticResource existSelElementConverter}}"
+                    Opacity="{Binding ElementName=beginedTastsGrid, Path=SelectedItem, Converter={StaticResource notNullObjectToOpacityConverter}}"
+                    Height="30" HorizontalAlignment="Center" Name="Remove" VerticalAlignment="Top" Width="30" Grid.Column="1" Margin="0,5,0,0" Click="Remove_Click" ToolTip="Убрать выбранные задачи из выполения" Style="{DynamicResource NavButtons}">
+                <Image Source="/TaskManager;component/Images/arrow-left.ico" />
+            </Button>
+            <Button Height="30" HorizontalAlignment="Center" Name="Apply" VerticalAlignment="Top" Width="30" Grid.Column="1" Margin="0,5,0,0" Click="Apply_Click" ToolTip="Применить" Style="{DynamicResource NavButtons}">
+                <Image Source="/TaskManager;component/Images/ok.ico" />
+            </Button>
+        </StackPanel>
+        <Label Content="Все мои задачи" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" FontWeight="Bold" FontSize="13" />
+        <Label Content="Выбранные задачи к выполнению" FontSize="13" FontWeight="Bold" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" Grid.Column="2" />
+    </Grid>
+</Window:HideWin>

@@ -1,0 +1,15 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="TaskManager.Window.MessageWin"
+        Title="MessageWin" Height="95" Width="465" Style="{DynamicResource MessagWinStyle}" WindowStyle="None" Margin="0" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="0.286*" MinHeight="23" />
+    		<RowDefinition Height="0.714*"/>
+    	</Grid.RowDefinitions>
+    	<Button x:Name="CloseWin" Content="Button" Margin="0,2,2,0" Style="{DynamicResource CloseButton}" Width="20" HorizontalAlignment="Right" Click="CloseWin_Click" VerticalAlignment="Top" Height="19.833" />
+    	<TextBlock x:Name="Topic" Margin="15,8,22,2" TextWrapping="Wrap" Text="..." FontWeight="Bold" FontSize="13.333" TextAlignment="Center" />
+        <TextBlock Margin="3,2,3,6" x:Name="Message" Text="..." TextAlignment="Center" d:LayoutOverrides="Height" Grid.Row="1" VerticalAlignment="Center" />
+    </Grid>
+</Window>
